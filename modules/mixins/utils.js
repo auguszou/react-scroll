@@ -4,14 +4,18 @@ const pushHash = (hash) => {
       ? hash
       : '#' + hash
     : '';
-
-  if(history.pushState) {
-    let loc = window.location;
-    history.pushState(null, null, hash ? loc.pathname + loc.search + hash
-      // remove hash
-      : loc.pathname + loc.search);
-  } else {
+  if (hash !== '') {
     location.hash = hash;
+  } else if (history.replaceState) {
+    var loc = window.location;
+    history.replaceState(
+      null,
+      null,
+      hash != ''
+        ? loc.pathname + loc.search + hash
+        : // remove hash
+          loc.pathname + loc.search
+    );
   }
 }
 
